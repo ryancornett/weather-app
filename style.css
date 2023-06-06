@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Poppins:wght@400;700&display=swap');
+
+:root, *, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --fs_100: 0.85rem;
+  --fs_200: 1rem;
+  --fs_300: 1.125rem;
+  --fs_400: 1.25rem;
+  --fs_500: 1.5rem;
+  --fs_600: 1.85rem;
+  --fs_700: 2.125rem;
+  --fs_800: 2.5rem;
+  --fs_900: 3.25rem
+  --ff_serif: 'Merriweather', serif;
+  --ff_sans: 'Poppins', sans-serif;
+  --fw_reg: 400;
+  --fw_bold: 700;
+  --color_hundred-plus: #cc0001;
+  --color_ninety-plus: #fe0001;
+  --color_eighty-plus: #fe9900;
+  --color_seventy-plus: #ffff00;
+  --color_sixty-plus: #aeff00;
+  --color_fifty-plus: #00ff01;
+  --color_forty-plus: #00fecb;
+  --color_thirty-plus: #6d9eeb;
+  --color_twenty-plus: #a998db;
+  --color_ten-plus: #8062d5;
+  --color_zero-plus: #cf6d9e;
+  --color_below-zero: #ff00fe;
+}
+
+.weather {
+  margin: 1rem auto;
+  border: 3px solid rgb(210, 210, 210);
+  background-image: linear-gradient(rgb(180, 180, 108), rgb(82, 73, 4));
+  color: white;
+  text-align: center;
+  font-family: var(--ff_sans);
+}
+  
+.current {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.location {
+  width: 20%;
+  flex: 1 1 33%;
+  text-align: center;
+  font-size: var(--fs_400);
+  margin-left: var(--fs_100);
+}
+
+.current-icon {
+  flex: 1 1 33%;
+}
+
+.temp {
+  flex: 1 1 33%;
+  font-size: var(--fs_600);
+}
+
+.forecast {
+  display: flex;
+  justify-content: space-around;
+}
+
+.day-wrapper {
+  flex: 1 1 35%;
+  font-family: var(--ff_serif);
+  font-size: var(--fs_400);
+  margin: var(--fs_400) auto;
+}
+
+.day-wrapper + .day-wrapper{
+  margin-left: 0.5rem;
+}
+
+.forecast-icon > svg {
+  width: 45%;
+  height: 45%;
+}
+
+.precip-percentage {
+  font-size: var(--fs_100);
+  margin: -0.85rem 0 0.75rem 0;
+}
+
+.high {
+  color: var(--color_ninety-plus);
+}
+
+.low {
+  color: var(--color_thirty-plus);
+}
+
+svg {
+  fill: white;
+  width: 10vw;
+  height: 10vw;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 750px) {
+  .weather {
+    width: 50vw;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .weather {
+    width: 40vw;
+  }
+}
