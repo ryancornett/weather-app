@@ -1,13 +1,35 @@
-import { getSunsetSeconds, displayCurrentOutlook, displayForecastOutlooks } from './scripts/data.js';
+import { displayCurrentOutlook, displayForecastOutlooks } from './scripts/data.js';
 
+function reduceCoords(coord) {
+  let str = coord.toString();
+  let reduced = '';
+  if (str[0] == '-') {
+    reduced = str.slice(0, 6);
+  } else {
+    reduced = str.slice(0, 5);
+  }
+  return parseFloat(reduced);
+}
+
+function getPosition() {
+  return new Promise((res, rej) => {
+      navigator.geolocation.getCurrentPosition(res, rej);
+  });
+}
 
 // *** Begin weather forecast ***
 
 // *** Request weather data ***
 async function weather() {
-    let today = await fetch('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,rain,snowfall,cloudcover&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset,rain_sum,snowfall_sum,precipitation_probability_max&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&forecast_days=3&timezone=America%2FNew_York')
-      .then((response) => response.json());
-    return today;
+  let position = await getPosition();
+  console.log(position);
+  let lat = reduceCoords(position.coords.latitude);
+  let long = reduceCoords(position.coords.longitude);
+  console.log(`Lat: ${lat} & Long: ${long}`)
+
+  let today = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=37.21&longitude=83.90&hourly=temperature_2m,precipitation_probability,rain,showers,snowfall,cloudcover,is_day&daily=temperature_2m_max,temperature_2m_min,rain_sum,showers_sum,snowfall_sum,precipitation_probability_max&temperature_unit=fahrenheit&windspeed_unit=mph&precipitation_unit=inch&forecast_days=3&timezone=America%2FNew_York`)
+    .then((response) => response.json());
+  return today;
   };
   
   const currentDayTime = new Date();
@@ -19,9 +41,6 @@ async function weather() {
   const forecastArray = [dayOne, dayTwo, dayThree];
   const currentIcon = document.querySelector('.current-icon');
   let currentHour = currentDayTime.getHours();
-  let currentMinute = currentDayTime.getMinutes();
-  let currentSecond = currentDayTime.getSeconds();
-  let secondsSinceStartOfDay = (currentHour * 3600) + (currentMinute * 60) + currentSecond;
   const currentTemp = document.getElementById('temp');
   const highs = document.querySelectorAll('.high');
   const lows = document.querySelectorAll('.low');
@@ -32,9 +51,8 @@ async function weather() {
     let response = await weather();
     
     // *** Get sunset time and compare it to current time ***
-    getSunsetSeconds(response);
 
-    displayCurrentOutlook(response, currentHour, secondsSinceStartOfDay, currentIcon);
+    displayCurrentOutlook(response, currentHour, currentIcon);
 
 
   // *** Display current temperature ***

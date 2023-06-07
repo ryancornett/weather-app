@@ -34,7 +34,7 @@
 .weather {
   margin: 1rem auto;
   border: 3px solid rgb(210, 210, 210);
-  background-image: linear-gradient(rgb(180, 180, 108), rgb(82, 73, 4));
+  background-image: linear-gradient(rgb(100, 100, 44), rgb(0, 0, 0));
   color: white;
   text-align: center;
   font-family: var(--ff_sans);

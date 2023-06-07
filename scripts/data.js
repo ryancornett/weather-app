@@ -1,38 +1,11 @@
 import { exports } from "./graphics.js";
 
-function getSunsetSeconds(data) {
-    let sunsetResponse = data.daily.sunset[0];
-    let sunsetTime = sunsetResponse.slice(11);
-    let sunsetHour = sunsetTime.slice(0, 2);
-    let sunsetHourAdjusted = parseInt(sunsetHour) + 5;
-    let sunsetMinute = sunsetTime.slice(-2);
-    let sunsetMinuteParsed = parseInt(sunsetMinute);
-    let sunsetSeconds = ((sunsetHourAdjusted * 3600) + (sunsetMinuteParsed * 60));
-    return sunsetSeconds;
-}
-
-function displayCurrentOutlook(data, time, secondsElapsed, element) {
+function displayCurrentOutlook(data, time, element) {
     let currentOutlook = data.hourly.cloudcover[time];
     const weatherApp = document.querySelector('.weather');
     
     // *** Set current icon to sunny by default ***
     element.innerHTML = exports[0];
-
-    // *** Check if nighttime ***
-    if (getSunsetSeconds(data) < secondsElapsed) {
-        element.innerHTML = exports[5];
-        weatherApp.getElementsByClassName.backgroundImage = 'linear-gradient(rgb(10, 12, 130), black);';
-    };
-
-    // *** Check if snowing ***
-    if (data.hourly.snowfall[time] > 0) {
-        element.innerHTML = exports[4];
-    };
-
-    // *** Check if raining ***
-    if (data.hourly.rain[time] > 0) {
-        element.innerHTML = exports[3];
-    };
 
     // *** Check if cloudy ***
     if (currentOutlook >=75) {
@@ -42,6 +15,25 @@ function displayCurrentOutlook(data, time, secondsElapsed, element) {
     // *** Check if partly cloudy ***
     if (currentOutlook < 75 && currentOutlook >= 50) {
         element.innerHTML = exports[1];
+    };
+
+    console.log(data.hourly.is_day[time]);
+
+    // *** Check if nighttime ***
+    if (data.hourly.is_day[time] == 1) {
+        console.log('how?');
+        element.innerHTML = exports[5];
+        weatherApp.style.backgroundImage = 'linear-gradient(rgb(10, 12, 130), black)';
+    };
+
+    // *** Check if raining ***
+    if (data.hourly.rain[time] > 0) {
+        element.innerHTML = exports[3];
+    };
+
+    // *** Check if snowing ***
+    if (data.hourly.snowfall[time] > 0) {
+        element.innerHTML = exports[4];
     };
 }
 
@@ -92,4 +84,4 @@ function displayForecastOutlooks(data) {
     }
 };
 
-export { getSunsetSeconds, displayCurrentOutlook, displayForecastOutlooks };
+export { displayCurrentOutlook, displayForecastOutlooks };
